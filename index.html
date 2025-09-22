@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatApp - Real-Time Messaging</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h2>ChatApp</h2>
+                <p>Connect with friends in real-time</p>
+            </div>
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Login</div>
+                <div class="auth-tab" data-tab="signup">Sign Up</div>
+            </div>
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="auth-btn">Login</button>
+            </form>
+            <form class="auth-form" id="signupForm" style="display: none;">
+                <div class="form-group">
+                    <label for="signupUsername">Username</label>
+                    <input type="text" id="signupUsername" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupAvatar">Profile Picture (URL)</label>
+                    <input type="text" id="signupAvatar" placeholder="Paste image URL (optional)">
+                </div>
+                <button type="submit" class="auth-btn">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container" id="appContainer" style="display: none;">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-comments"></i>
+                    <span>ChatApp</span>
+                </div>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            
+            <div class="user-profile" id="userProfile">
+                <div class="avatar" id="userAvatar">JD</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">John Doe</div>
+                    <div class="user-status">
+                        <span class="status-indicator"></span>
+                        <span id="userStatus">Online</span>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            
+            <div class="sidebar-tabs">
+                <div class="tab active" data-tab="chats">Chats</div>
+                <div class="tab" data-tab="groups">Groups</div>
+                <div class="tab" data-tab="contacts">Contacts</div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search chats...">
+                </div>
+            </div>
+            
+            <div class="chats-list" id="chatsList">
+                <!-- Chats will be dynamically inserted here -->
+            </div>
+        </div>
+        
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <div class="avatar" id="activeChatAvatar">CD</div>
+                    <div class="chat-title-info">
+                        <h3 id="activeChatName">Chat Name</h3>
+                        <div class="chat-status">
+                            <span class="status-indicator"></span>
+                            <span id="activeChatStatus">Online</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-actions">
+                    <button class="chat-action-btn" id="videoCallBtn">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    <button class="chat-action-btn" id="voiceCallBtn">
+                        <i class="fas fa-phone"></i>
+                    </button>
+                    <button class="chat-action-btn" id="infoBtn">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="messages-container" id="messagesContainer">
+                <!-- Messages will be dynamically inserted here -->
+            </div>
+            
+            <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                <span id="typingUser">User</span> is typing
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+            
+            <div class="message-input-container">
+                <div class="file-preview" id="filePreview">
+                    <i class="fas fa-file"></i>
+                    <div class="file-info">
+                        <div class="file-name" id="fileName">document.pdf</div>
+                        <div class="file-size" id="fileSize">2.4 MB</div>
+                    </div>
+                    <button class="remove-file" id="removeFile">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="input-area">
+                    <button class="attachment-btn" id="attachmentBtn">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    
+                    <textarea class="message-input" id="messageInput" placeholder="Type a message..."></textarea>
+                    
+                    <button class="emoji-btn" id="emojiBtn">
+                        <i class="fas fa-smile"></i>
+                    </button>
+                    
+                    <button class="send-btn" id="sendBtn">Send</button>
+                </div>
+                
+                <div class="emoji-picker" id="emojiPicker">
+                    <div class="emoji-categories">
+                        <button class="emoji-category active" data-category="smileys">😀</button>
+                        <button class="emoji-category" data-category="people">👋</button>
+                        <button class="emoji-category" data-category="nature">🌿</button>
+                        <button class="emoji-category" data-category="food">🍕</button>
+                        <button class="emoji-category" data-category="activities">⚽</button>
+                        <button class="emoji-category" data-category="objects">💡</button>
+                        <button class="emoji-category" data-category="symbols">❤️</button>
+                        <button class="emoji-category" data-category="flags">🏳️</button>
+                    </div>
+                    <div class="emoji-grid" id="emojiGrid">
+                        <!-- Emojis will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
